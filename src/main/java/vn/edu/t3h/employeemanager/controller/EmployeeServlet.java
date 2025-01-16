@@ -21,6 +21,19 @@ import java.util.Map;
 @WebServlet(name = "EmployeeServlet",value = "/employee")
 public class EmployeeServlet extends HttpServlet {
 
+    private boolean isSearchEmpty(Map<String, String> search) {
+        if (search == null || search.isEmpty()) {
+            return true; // search null hoặc không có key nào
+        }
+        // Kiểm tra nếu tất cả các giá trị đều là "" hoặc null
+        for (String value : search.values()) {
+            if (value != null && !value.trim().isEmpty()) {
+                return false; // Có ít nhất 1 giá trị hợp lệ
+            }
+        }
+        return true; // Tất cả giá trị đều rỗng hoặc null
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -48,12 +61,12 @@ public class EmployeeServlet extends HttpServlet {
         search.put("departmentId", departmentId);
 
         System.out.println(search);
-        System.out.println(search.toString());
+
 
         EmployeeDao employeeDao = new EmployeeDaoMysqlImpl();
         EmployeeService employeeService = new EmployeeServiceImpl(employeeDao);
 //        List<Employee> employees = search==null? employeeService.getAllEmployee():employeeService.searchEmployee(search);
-        List<Employee> employees = search.isEmpty()
+        List<Employee> employees = isSearchEmpty(search)
                 ? employeeService.getAllEmployee()
                 : employeeService.searchEmployee(search);
         req.setAttribute("employeeData",employees);

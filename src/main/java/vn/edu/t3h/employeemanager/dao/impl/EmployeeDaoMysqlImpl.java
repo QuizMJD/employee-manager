@@ -67,6 +67,8 @@ public class EmployeeDaoMysqlImpl implements EmployeeDao {
         String toHireDate = search.get("toHireDate");
         String position = search.get("position");
         String departmentId = search.get("departmentId");
+
+
         // tạo câu query
 //        String sql = "SELECT e.employee_id, e.name, e.position, e.salary, d.department_name, e.hire_date " +
 //                "FROM employees e LEFT JOIN departments d ON e.department_id = d.department_id " +
@@ -83,8 +85,34 @@ public class EmployeeDaoMysqlImpl implements EmployeeDao {
                 (fromHireDate != null && toHireDate != null ? " AND e.hire_date BETWEEN ? AND ? " : "") +
                 (position != null && !position.isEmpty() ? " AND e.position LIKE ? " : "") +
                 (departmentId != null && !departmentId.isEmpty() ? " AND e.department_id = ? " : "");
+
+
+        if (fromHireDate == null || fromHireDate.isEmpty() || toHireDate == null || toHireDate.isEmpty()) {
+            // Loại bỏ điều kiện liên quan đến hire_date nếu một trong hai giá trị bị rỗng hoặc null
+            sql = sql.replace("AND e.hire_date BETWEEN ? AND ?", "");
+            System.out.println("Final SQL query: " + sql);
+        }
         try {
-            PreparedStatement statement = connection.prepareStatement(sql);
+            PreparedStatement statement = connection.prepareStatement(sql.toString());
+//            ResultSet resultSet = statement.executeQuery();
+            int paramIndex = 1;
+
+            if (name != null && !name.isEmpty()) {
+                statement.setString(paramIndex++, "%" + name + "%");
+            }
+            if (salary != null && !salary.isEmpty()) {
+                statement.setDouble(paramIndex++, Double.parseDouble(salary));
+            }
+            if (fromHireDate != null && toHireDate != null) {
+                statement.setString(paramIndex++, fromHireDate);
+                statement.setString(paramIndex++, toHireDate);
+            }
+            if (position != null && !position.isEmpty()) {
+                statement.setString(paramIndex++, "%" + position + "%");
+            }
+            if (departmentId != null && !departmentId.isEmpty()) {
+                statement.setInt(paramIndex++, Integer.parseInt(departmentId));
+            }
 
 
             // thực thi câu query
