@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee List</title>
+    <title>Department List</title>
 
     <!-- CSS Styles -->
     <style>
@@ -60,24 +60,13 @@
         <input type="text" id="name" name="name" value="${param.name}" placeholder="Search by Name"/>
     </div>
 
-    <div>
-        <label for="salary">Salary:</label>
-        <input type="text" id="salary" name="salary" value="${param.salary}" placeholder="Search by Salary"/>
-    </div>
+
+
+
 
     <div>
-        <label for="fromDate">From Hire Date:</label>
-        <input type="date" id="fromDate" name="fromDate" value="${param.fromDate}"/>
-    </div>
-
-    <div>
-        <label for="toDate">To Hire Date:</label>
-        <input type="date" id="toDate" name="toDate" value="${param.toDate}"/>
-    </div>
-
-    <div>
-        <label for="position">Position:</label>
-        <input type="text" id="position" name="position" value="${param.position}" placeholder="Search by Position"/>
+        <label for="position">Location:</label>
+        <input type="text" id="position" name="position" value="${param.loaction}" placeholder="Search by Location"/>
     </div>
 
     <div>
