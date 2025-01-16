@@ -38,18 +38,12 @@ public class EmployeeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         // lấy data từ param
-        String name = req.getParameter("name")==null?"":req.getParameter("name");
-
-        String salary = req.getParameter("salary")==null?"":req.getParameter("salary");
-
-        String fromHireDate = req.getParameter("fromHireDate")==null?"":req.getParameter("fromHireDate");
-
-        String toHireDate = req.getParameter("toHireDate")==null?"":req.getParameter("toHireDate");
-
-        String position = req.getParameter("position")==null?"":req.getParameter("position");
-
+        String name = req.getParameter("name");
+        String salary = req.getParameter("salary");
+        String fromHireDate = req.getParameter("fromHireDate");
+        String toHireDate = req.getParameter("toHireDate");
+        String position = req.getParameter("position");
         String departmentId = req.getParameter("departmentId");
-        String departmentName = req.getParameter("departmentName");
 
 //        String search= name+salary+fromHireDate+toHireDate+position;
         Map<String, String> search = new HashMap<>();
