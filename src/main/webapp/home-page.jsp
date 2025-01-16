@@ -15,5 +15,6 @@
 <a href="home-servlet">Home Servlet</a>
 <br>
 <a href="employee">Danh sách nhân viên</a>
+<a href="department">Danh sách phòng ban</a>
 </body>
 </html>
