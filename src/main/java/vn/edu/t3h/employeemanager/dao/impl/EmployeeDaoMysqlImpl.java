@@ -56,11 +56,7 @@ public class EmployeeDaoMysqlImpl implements EmployeeDao {
 
     @Override
     public List<Employee> searchEmployee(Map<String, String> search) {
-
-        // tạo connection đến database
-        Connection connection = getConnection();
         List<Employee> employeesResult = new ArrayList<>();
-        // Sử dụng các giá trị trong Map để xây dựng query.
         String name = search.get("name");
         String salary = search.get("salary");
         String fromHireDate = search.get("fromHireDate");
@@ -68,33 +64,30 @@ public class EmployeeDaoMysqlImpl implements EmployeeDao {
         String position = search.get("position");
         String departmentId = search.get("departmentId");
 
+        StringBuilder sql = new StringBuilder(
+                "SELECT e.employee_id, e.name, e.position, e.salary, d.department_name, e.hire_date " +
+                        "FROM employees e LEFT JOIN departments d ON e.department_id = d.department_id " +
+                        "WHERE 1=1 ");
 
-        // tạo câu query
-//        String sql = "SELECT e.employee_id, e.name, e.position, e.salary, d.department_name, e.hire_date " +
-//                "FROM employees e LEFT JOIN departments d ON e.department_id = d.department_id " +
-//                "WHERE 1=1 AND (e.name LIKE ? OR ? IS NULL) " +
-//                "AND (e.salary >= ? OR ? IS NULL) " +
-//                "AND (e.hire_date BETWEEN ? AND ? OR ? IS NULL OR ? IS NULL) " +
-//                "AND (e.position LIKE ? OR ? IS NULL) " +
-//                "AND (e.department_id = ? OR ? IS NULL);\n";
-        String sql = "SELECT e.employee_id, e.name, e.position, e.salary, d.department_name, e.hire_date " +
-                "FROM employees e LEFT JOIN departments d ON e.department_id = d.department_id " +
-                "WHERE 1=1 " +
-                (name != null && !name.isEmpty() ? " AND e.name LIKE ? " : "") +
-                (salary != null && !salary.isEmpty() ? " AND e.salary >= ? " : "") +
-                (fromHireDate != null && toHireDate != null ? " AND e.hire_date BETWEEN ? AND ? " : "") +
-                (position != null && !position.isEmpty() ? " AND e.position LIKE ? " : "") +
-                (departmentId != null && !departmentId.isEmpty() ? " AND e.department_id = ? " : "");
-
-
-        if (fromHireDate == null || fromHireDate.isEmpty() || toHireDate == null || toHireDate.isEmpty()) {
-            // Loại bỏ điều kiện liên quan đến hire_date nếu một trong hai giá trị bị rỗng hoặc null
-            sql = sql.replace("AND e.hire_date BETWEEN ? AND ?", "");
-            System.out.println("Final SQL query: " + sql);
+        if (name != null && !name.isEmpty()) {
+            sql.append(" AND e.name LIKE ? ");
         }
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql.toString());
-//            ResultSet resultSet = statement.executeQuery();
+        if (salary != null && !salary.isEmpty()) {
+            sql.append(" AND e.salary >= ? ");
+        }
+        if (fromHireDate != null && !fromHireDate.isEmpty() && toHireDate != null && !toHireDate.isEmpty()) {
+            sql.append(" AND e.hire_date BETWEEN ? AND ? ");
+        }
+        if (position != null && !position.isEmpty()) {
+            sql.append(" AND e.position LIKE ? ");
+        }
+        if (departmentId != null && !departmentId.isEmpty()) {
+            sql.append(" AND e.department_id = ? ");
+        }
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql.toString())) {
+
             int paramIndex = 1;
 
             if (name != null && !name.isEmpty()) {
@@ -103,7 +96,7 @@ public class EmployeeDaoMysqlImpl implements EmployeeDao {
             if (salary != null && !salary.isEmpty()) {
                 statement.setDouble(paramIndex++, Double.parseDouble(salary));
             }
-            if (fromHireDate != null && toHireDate != null) {
+            if (fromHireDate != null && !fromHireDate.isEmpty() && toHireDate != null && !toHireDate.isEmpty()) {
                 statement.setString(paramIndex++, fromHireDate);
                 statement.setString(paramIndex++, toHireDate);
             }
@@ -114,37 +107,27 @@ public class EmployeeDaoMysqlImpl implements EmployeeDao {
                 statement.setInt(paramIndex++, Integer.parseInt(departmentId));
             }
 
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Employee employee = new Employee();
+                    employee.setEmployeeId(resultSet.getInt("employee_id"));
+                    employee.setName(resultSet.getString("name"));
+                    employee.setPosition(resultSet.getString("position"));
+                    employee.setSalary(resultSet.getDouble("salary"));
+                    employee.setDepartmentName(resultSet.getString("department_name"));
+                    employee.setHireDate(resultSet.getString("hire_date"));
 
-            // thực thi câu query
-            ResultSet resultSet = statement.executeQuery();
-            // lấy ra dữ liệu từ câu query đưa vào object java
-            while (resultSet.next()){
-                Employee employee = new Employee();
-                employee.setEmployeeId(resultSet.getInt("employee_id"));
-                employee.setName(resultSet.getString("name"));
-                employee.setPosition(resultSet.getString("position"));
-                employee.setSalary(resultSet.getDouble("salary"));
-                employee.setDepartmentName(resultSet.getString("department_name"));
-                employee.setHireDate(resultSet.getString("hire_date"));
-
-                employeesResult.add(employee);
+                    employeesResult.add(employee);
+                }
             }
-            System.out.println("get employee success");
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-        }finally {
-            if (connection != null){
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
         }
-        // trả về kết quả là danh sach employee
+
         return employeesResult;
     }
+
 
     public Connection getConnection(){
         String url = "jdbc:mysql://localhost:3306/quanlynhansu";

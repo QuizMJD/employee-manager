@@ -25,8 +25,6 @@ public class DepartmentDaoIml implements DepartmentDao {
                 department.setDepartmentId(resultSet.getInt("department_id"));
                 department.setDepartmentName(resultSet.getString("department_name"));
                 department.setLocation(resultSet.getString("location"));
-
-
                 departmentResult.add(department);
             }
             System.out.println("get department success");
