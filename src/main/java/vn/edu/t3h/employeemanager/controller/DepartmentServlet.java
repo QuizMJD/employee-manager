@@ -35,7 +35,7 @@ public class DepartmentServlet extends HttpServlet {
         req.setAttribute("departments",departments);
 
 
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("departments.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("show.jsp");
         requestDispatcher.forward(req,resp);
     }
 

@@ -18,34 +18,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "EmployeeServlet",value = "/employee")
-public class EmployeeServlet extends HttpServlet {
+import static vn.edu.t3h.employeemanager.utils.map.RequestUtils.isSearchEmpty;
 
-    private boolean isSearchEmpty(Map<String, String> search) {
-        if (search == null || search.isEmpty()) {
-            return true; // search null hoặc không có key nào
-        }
-        // Kiểm tra nếu tất cả các giá trị đều là "" hoặc null
-        for (String value : search.values()) {
-            if (value != null && !value.trim().isEmpty()) {
-                return false; // Có ít nhất 1 giá trị hợp lệ
-            }
-        }
-        return true; // Tất cả giá trị đều rỗng hoặc null
-    }
+@WebServlet(name = "EmployeeServlet",value = "/employee/show")
+public class EmployeeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        // lấy data từ param
+        // input data from param
         String name = req.getParameter("name");
         String salary = req.getParameter("salary");
-        String fromHireDate = req.getParameter("fromHireDate");
-        String toHireDate = req.getParameter("toHireDate");
+        String fromHireDate = req.getParameter("fromDate");
+        String toHireDate = req.getParameter("toDate");
         String position = req.getParameter("position");
         String departmentId = req.getParameter("departmentId");
-
-//        String search= name+salary+fromHireDate+toHireDate+position;
+        // put map
         Map<String, String> search = new HashMap<>();
         search.put("name", name);
         search.put("salary", salary);
@@ -53,27 +41,15 @@ public class EmployeeServlet extends HttpServlet {
         search.put("toHireDate", toHireDate);
         search.put("position", position);
         search.put("departmentId", departmentId);
-
-        System.out.println(search);
-
-
+        //router
         EmployeeDao employeeDao = new EmployeeDaoMysqlImpl();
         EmployeeService employeeService = new EmployeeServiceImpl(employeeDao);
-//        List<Employee> employees = search==null? employeeService.getAllEmployee():employeeService.searchEmployee(search);
         List<Employee> employees = isSearchEmpty(search)
                 ? employeeService.getAllEmployee()
                 : employeeService.searchEmployee(search);
         req.setAttribute("employeeData",employees);
 
-        // log kq
-        System.out.println("name: " + name);
-        System.out.println("salary: " + salary);
-        System.out.println("fromHireDate: " + fromHireDate);
-        System.out.println("toHireDate: " + toHireDate);
-        System.out.println("position: " + position);
-        System.out.println("departmentId: " + departmentId);
-         //
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("employees.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/employee/show.jsp");
         requestDispatcher.forward(req,resp);
     }
 

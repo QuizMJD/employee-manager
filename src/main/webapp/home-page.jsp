@@ -89,7 +89,7 @@
     <h2>Explore Our Features</h2>
     <nav>
         <a href="home-servlet">Home Servlet</a>
-        <a href="employee">Danh sách nhân viên</a>
+        <a href="employee/show">Danh sách nhân viên</a>
         <a href="department">Danh sách phòng ban</a>
     </nav>
 </div>

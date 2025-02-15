@@ -6,6 +6,7 @@ import vn.edu.t3h.employeemanager.model.Department;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import static vn.edu.t3h.employeemanager.utils.DatabaseConnection.getConnection;
 
 public class DepartmentDaoIml implements DepartmentDao {
     @Override
@@ -43,20 +44,6 @@ public class DepartmentDaoIml implements DepartmentDao {
         // trả về kết quả là danh sach employee
         return departmentResult;
 
-    }
-    public Connection getConnection(){
-        String url = "jdbc:mysql://localhost:3306/quanlynhansu";
-        String username = "root";
-        String password = "12345678";
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(url,username,password);
-            System.out.println("get connection success");
-            return connection;
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
     }
 
 }

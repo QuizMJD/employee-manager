@@ -54,7 +54,7 @@
 <h1>Employee List</h1>
 
 <!-- Form tìm kiếm với các trường hiển thị ngang -->
-<form class="search-form" action="/department" method="get">
+<form class="search-form" action="/department/show" method="get">
     <div>
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" value="${param.name}" placeholder="Search by Name"/>

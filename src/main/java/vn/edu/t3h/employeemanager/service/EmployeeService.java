@@ -9,4 +9,5 @@ public interface EmployeeService {
 
     List<Employee> getAllEmployee();
    List<Employee> searchEmployee(Map<String, String> search);
+
 }

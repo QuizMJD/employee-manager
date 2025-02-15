@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static vn.edu.t3h.employeemanager.utils.DatabaseConnection.getConnection;
 
 
 public class EmployeeDaoMysqlImpl implements EmployeeDao {
@@ -129,18 +130,6 @@ public class EmployeeDaoMysqlImpl implements EmployeeDao {
     }
 
 
-    public Connection getConnection(){
-        String url = "jdbc:mysql://localhost:3306/quanlynhansu";
-        String username = "root";
-        String password = "12345678";
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(url,username,password);
-            System.out.println("get connection success");
-            return connection;
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
+
+
 }
