@@ -12,6 +12,6 @@ public interface EmployeeDao {
     boolean saveEmployee(Employee employee);
     boolean updateEmployee(Employee employee);
     boolean deleteEmployee(Integer id);
-    String getEmployeeById(Integer id);
+    Employee getEmployeeById(Integer id);
 
 }

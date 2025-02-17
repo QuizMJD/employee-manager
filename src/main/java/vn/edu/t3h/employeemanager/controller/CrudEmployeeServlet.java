@@ -32,7 +32,6 @@ public class CrudEmployeeServlet extends HttpServlet {
         if (empIdStr != null && !empIdStr.isEmpty()) {
             emp.setEmployeeId(Integer.parseInt(empIdStr));
         }
-
         emp.setName(req.getParameter("name"));
         emp.setPosition(req.getParameter("position"));
         emp.setSalary(Double.valueOf(req.getParameter("salary")));
@@ -47,15 +46,49 @@ public class CrudEmployeeServlet extends HttpServlet {
             System.out.println("Failed to save employee!");
             // hiển thị thông báo lỗi trên trang JSP
         }
+    }
+    else if(action!=null&&action.equals("Update")) {
+        Employee emp = new Employee();
+        String empIdStr = req.getParameter("id");
+        emp.setEmployeeId(Integer.parseInt(empIdStr));
+        emp.setName(req.getParameter("name"));
+        emp.setPosition(req.getParameter("position"));
+        emp.setSalary(Double.valueOf(req.getParameter("salary")));
+        emp.setDepartmentName(req.getParameter("departmentName"));
+        emp.setHireDate(req.getParameter("hireDate"));
+        boolean result = employeeService.updateEmployee(emp);
+        if (result) {
+            System.out.println("Employee updated successfully!");
+            resp.sendRedirect(req.getContextPath() + "/employee/show");
+        }
+    }
+    }
 
-    }
-    }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Chuyển hướng về trang hiển thị danh sách nhân viên
-//        resp.sendRedirect(req.getContextPath() + "/employee/create");
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/employee/create.jsp");
-        requestDispatcher.forward(req,resp);
+        String employeeIdStr = req.getParameter("id");
+        RequestDispatcher requestDispatcher;
+        if (employeeIdStr == null || employeeIdStr.trim().isEmpty()) {
+            // Không có ID => Chuyển sang trang tạo mới
+            requestDispatcher = req.getRequestDispatcher("/employee/create.jsp");
+        } else {
+            // Có ID => Lấy thông tin nhân viên và chuyển đến trang cập nhật
+            int employeeId = Integer.parseInt(employeeIdStr);
+            EmployeeDao employeeDao = new EmployeeDaoMysqlImpl();
+            Employee employee = employeeDao.getEmployeeById(employeeId);
+            if (employee != null) {
+                req.setAttribute("model", employee);
+                requestDispatcher = req.getRequestDispatcher("/employee/create.jsp");
+            } else {
+                // Nếu không tìm thấy nhân viên, quay về trang danh sách
+                resp.sendRedirect(req.getContextPath() + "/employee/show");
+                return;
+            }
+        }
+
+        requestDispatcher.forward(req, resp);
     }
+
+
 
 }

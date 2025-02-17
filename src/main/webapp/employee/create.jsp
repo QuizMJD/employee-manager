@@ -73,7 +73,7 @@
           <button type="submit" class="btn btn-outline-primary" name="action" value="Create">Add Employee</button>
         </c:if>
         <c:if test="${not empty model.employeeId}">
-          <button type="submit" class="btn btn-outline-warning" ame="action" value="Edit">Edit Employee</button>
+          <button type="submit" class="btn btn-outline-warning" name="action" value="Update">Edit Employee</button>
         </c:if>
       </div>
     </form>

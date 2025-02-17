@@ -172,7 +172,7 @@
             <td>${employeeModel.hireDate}</td>
             <td>
                 <div class="action-buttons">
-                    <a href="/employee/update/${employeeModel.employeeId}" class="btn-warning">Update</a>
+                    <a href="/employee/crud-employee?id=${employeeModel.employeeId}" class="btn-warning">Update</a>
                     <a href="/employee/delete/${employeeModel.employeeId}" class="btn-danger">Delete</a>
                 </div>
             </td>

@@ -167,7 +167,37 @@ public class EmployeeDaoMysqlImpl implements EmployeeDao {
 
     @Override
     public boolean updateEmployee(Employee employee) {
-        return false;
+        Connection conn = null;
+        CallableStatement callSt = null;
+        Boolean result = true;
+        try {
+            conn = getConnection();
+            callSt =conn.prepareCall("{call update_mployee(?,?,?,?,?,?)}");
+            callSt.setInt(1, employee.getEmployeeId());
+            // thuc hien set gia tri cho tham so vao
+            callSt.setString(2, employee.getName());
+            callSt.setString(3, employee.getPosition());
+            callSt.setDouble(4, employee.getSalary());
+            callSt.setString(5, employee.getDepartmentName());
+            callSt.setString(6, employee.getHireDate());
+            // covert java.util.date ---> java.sql.date
+//            callSt.setDate(6,new Date(employee.getHireDate().getTime()));
+            callSt.executeUpdate();
+            result = true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        }
+        return result;
     }
 
     @Override
@@ -176,8 +206,40 @@ public class EmployeeDaoMysqlImpl implements EmployeeDao {
     }
 
     @Override
-    public String getEmployeeById(Integer id) {
-        return "";
+    public Employee getEmployeeById(Integer id) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Employee emp = null;
+        try {
+            conn = getConnection();
+            String query = "SELECT e.employee_id, e.name, e.position, e.salary, e.hire_date, d.department_name " +
+                    "FROM employees e " +
+                    "LEFT JOIN departments d ON e.department_id = d.department_id WHERE e.employee_id = ?";
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                emp = new Employee();
+                emp.setEmployeeId(rs.getInt("employee_id"));
+                emp.setName(rs.getString("name"));
+                emp.setPosition(rs.getString("position"));
+                emp.setSalary(rs.getDouble("salary"));
+                emp.setDepartmentName(rs.getString("department_name"));
+                emp.setHireDate(rs.getString("hire_date"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return emp;
     }
 
 

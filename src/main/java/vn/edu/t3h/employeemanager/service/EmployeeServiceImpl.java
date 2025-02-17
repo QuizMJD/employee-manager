@@ -31,7 +31,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public boolean updateEmployee(Employee employee) {
-        return false;
+        return employeeDao.updateEmployee(employee);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public String getEmployeeById(Integer id) {
-        return "";
+    public Employee getEmployeeById(Integer id) {
+        return employeeDao.getEmployeeById(id);
     }
 }
