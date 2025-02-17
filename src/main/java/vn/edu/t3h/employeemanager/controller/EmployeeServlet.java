@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import vn.edu.t3h.employeemanager.HelloServlet;
 import vn.edu.t3h.employeemanager.dao.EmployeeDao;
 import vn.edu.t3h.employeemanager.dao.impl.EmployeeDaoMysqlImpl;
 import vn.edu.t3h.employeemanager.model.Employee;
@@ -25,7 +26,10 @@ public class EmployeeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        getAllEmployees(req, resp);
 
+    }
+    public  void getAllEmployees(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // input data from param
         String name = req.getParameter("name");
         String salary = req.getParameter("salary");
@@ -49,7 +53,7 @@ public class EmployeeServlet extends HttpServlet {
                 : employeeService.searchEmployee(search);
         req.setAttribute("employeeData",employees);
 
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/employee/show.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/employee/show.jsp");
         requestDispatcher.forward(req,resp);
     }
 

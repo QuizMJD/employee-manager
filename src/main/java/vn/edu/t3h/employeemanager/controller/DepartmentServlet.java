@@ -26,15 +26,10 @@ public class DepartmentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-
         DepartmentDao departmentDao = new DepartmentDaoIml();
         DepartmentService departmentService=new DepartmentServiceIml(departmentDao);
-
         List<Department> departments = departmentService.getAllDepartments();
-
         req.setAttribute("departments",departments);
-
-
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("show.jsp");
         requestDispatcher.forward(req,resp);
     }

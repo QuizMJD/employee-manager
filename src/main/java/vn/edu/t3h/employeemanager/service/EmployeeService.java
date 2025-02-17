@@ -9,5 +9,8 @@ public interface EmployeeService {
 
     List<Employee> getAllEmployee();
    List<Employee> searchEmployee(Map<String, String> search);
-
+    boolean saveEmployee(Employee employee);
+    boolean updateEmployee(Employee employee);
+    boolean deleteEmployee(Integer id);
+    String getEmployeeById(Integer id);
 }

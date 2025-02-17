@@ -2,6 +2,7 @@ package vn.edu.t3h.employeemanager.dao.impl;
 
 import vn.edu.t3h.employeemanager.dao.EmployeeDao;
 import vn.edu.t3h.employeemanager.model.Employee;
+import vn.edu.t3h.employeemanager.utils.DatabaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,10 +25,10 @@ public class EmployeeDaoMysqlImpl implements EmployeeDao {
                 "inner join departments dept on emp.department_id = dept.department_id;";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-        // thực thi câu query
+            // thực thi câu query
             ResultSet resultSet = statement.executeQuery();
-        // lấy ra dữ liệu từ câu query đưa vào object java
-            while (resultSet.next()){
+            // lấy ra dữ liệu từ câu query đưa vào object java
+            while (resultSet.next()) {
                 Employee employee = new Employee();
                 employee.setEmployeeId(resultSet.getInt("employee_id"));
                 employee.setName(resultSet.getString("name"));
@@ -38,12 +39,12 @@ public class EmployeeDaoMysqlImpl implements EmployeeDao {
 
                 employeesResult.add(employee);
             }
-            System.out.println("get employee success");
+
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-        }finally {
-            if (connection != null){
+        } finally {
+            if (connection != null) {
                 try {
                     connection.close();
                 } catch (SQLException e) {
@@ -129,7 +130,55 @@ public class EmployeeDaoMysqlImpl implements EmployeeDao {
         return employeesResult;
     }
 
+    public boolean saveEmployee(Employee employee) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        Boolean result = true;
+        try {
+            conn = getConnection();
+            callSt =conn.prepareCall("{call InsertEmployee(?,?,?,?,?,?)}");
+            callSt.setInt(1, employee.getEmployeeId());
+            // thuc hien set gia tri cho tham so vao
+            callSt.setString(2, employee.getName());
+            callSt.setString(3, employee.getPosition());
+            callSt.setDouble(4, employee.getSalary());
+            callSt.setString(5, employee.getDepartmentName());
+            callSt.setString(6, employee.getHireDate());
+            // covert java.util.date ---> java.sql.date
+//            callSt.setDate(6,new Date(employee.getHireDate().getTime()));
+            callSt.execute();
+            result = true;
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        }
+        return result;
+
+    }
+
+    @Override
+    public boolean updateEmployee(Employee employee) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteEmployee(Integer id) {
+        return false;
+    }
+
+    @Override
+    public String getEmployeeById(Integer id) {
+        return "";
+    }
 
 
 }

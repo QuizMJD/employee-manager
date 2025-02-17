@@ -114,7 +114,7 @@
 <h1>Employee List</h1>
 
 <!-- Nút thêm nhân viên -->
-<a href="/admin/employee/create" class="add-employee-btn">Thêm nhân viên</a>
+<a href="/employee/crud-employee" class="add-employee-btn">Thêm nhân viên</a>
 
 <!-- Form tìm kiếm với các trường hiển thị ngang -->
 <form class="search-form" action="/employee/show" method="get">
@@ -172,8 +172,8 @@
             <td>${employeeModel.hireDate}</td>
             <td>
                 <div class="action-buttons">
-                    <a href="/admin/employee/update/${employeeModel.employeeId}" class="btn-warning">Update</a>
-                    <a href="/admin/employee/delete/${employeeModel.employeeId}" class="btn-danger">Delete</a>
+                    <a href="/employee/update/${employeeModel.employeeId}" class="btn-warning">Update</a>
+                    <a href="/employee/delete/${employeeModel.employeeId}" class="btn-danger">Delete</a>
                 </div>
             </td>
         </tr>
