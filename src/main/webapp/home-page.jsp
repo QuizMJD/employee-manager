@@ -1,117 +1,252 @@
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page T3H</title>
+    <title>Trang Chủ - Atino</title>
+
+    <!-- Nhúng Google Font 'Quicksand' -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        /* Đặt font chung cho toàn bộ trang */
+        * {
+            font-family: 'Quicksand', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #f0f4f8, #dfe6ed);
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            box-sizing: border-box;
         }
 
-        .window {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 800px;
-            overflow: hidden;
+        body {
+            background-color: #f8f8f8;
         }
 
-        .window-header {
-            background-color: #6c5ce7; /* Màu tím pastel */
-            color: white;
+        /* Thanh điều hướng */
+        .navbar {
+            background: linear-gradient(45deg, #ff6f61, #ff914d);
             padding: 15px 20px;
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            color: white;
         }
 
-        .window-content {
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 0 15px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+            color: #ffe600;
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Hiển thị user */
+        .user-info {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .user-info span {
+            background-color: white;
+            color: #ff6f61;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: 0.3s;
+        }
+
+        .user-info span:hover {
+            background-color: #ff3b2f;
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background-image: url('https://images.pexels.com/photos/1236700/pexels-photo-1236700.jpeg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 120px 20px;
+        }
+
+        .hero-section h1 {
+            font-size: 50px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .hero-section p {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        /* Danh sách sản phẩm */
+        .products-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 40px 20px;
+            background-color: white;
+        }
+
+        .product-card {
+            background: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .product-card h3 {
+            margin: 15px 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .product-card p {
+            color: #777;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #3b3b3b;
+            color: white;
             padding: 20px;
             text-align: center;
         }
 
-        .window-content h2 {
-            margin-bottom: 20px;
-            font-size: 1.8rem;
-            color: #6c5ce7; /* Màu tím pastel */
-        }
-
-        .window-nav {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .window-nav a {
+        .footer a {
+            color: #ff6f61;
             text-decoration: none;
-            color: white;
-            background-color: #00b894; /* Màu xanh lá pastel */
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 1rem;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            flex: 1 1 auto;
-            max-width: 200px;
-            text-align: center;
+            font-weight: 600;
         }
 
-        .window-nav a:hover {
-            background-color: #00cec9; /* Màu xanh ngọc pastel */
-            transform: translateY(-2px);
+        .footer a:hover {
+            text-decoration: underline;
         }
 
-        .footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #6c5ce7; /* Màu tím pastel */
-            color: white;
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        /* Responsive */
+        @media (max-width: 768px) {
+            .products-section {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
-        .footer p {
-            margin: 0;
-        }
+        @media (max-width: 480px) {
+            .products-section {
+                grid-template-columns: 1fr;
+            }
 
-        /* Responsive Design */
-        @media (max-width: 600px) {
-            .window-nav a {
-                flex: 1 1 100%;
-                max-width: 100%;
+            .hero-section h1 {
+                font-size: 36px;
+            }
+
+            .hero-section p {
+                font-size: 16px;
             }
         }
     </style>
 </head>
 <body>
-<div class="window">
-    <div class="window-header">
-        <h1>Welcome to T3H Home Page</h1>
+
+<!-- Thanh điều hướng -->
+<div class="navbar">
+    <div class="logo">Atino</div>
+    <div>
+        <a href="employee/show">Trang Chủ</a>
+        <a href="#">Dịch Vụ</a>
+        <a href="#">Liên Hệ</a>
     </div>
-    <div class="window-content">
-        <h2>Explore Our Features</h2>
-        <div class="window-nav">
-            <a href="home-servlet">Home Servlet</a>
-            <a href="employee/show">Danh sách nhân viên</a>
-            <a href="department">Danh sách phòng ban</a>
-        </div>
+    <div id="userInfo" class="user-info">
+        <c:if test="${not empty currentUser}">
+            <span>Xin chào, ${currentUser.username}</span>
+            <a href="${applicationScope.baseUrl}/logout">Đăng xuất</a>
+        </c:if>
+        <c:if test="${empty currentUser}">
+            <a href="${applicationScope.baseUrl}/login">Đăng nhập</a>
+        </c:if>
     </div>
-    <div class="footer">
-        <p>© 2025 T3H | All Rights Reserved</p>
+</div>
+
+<!-- Phần hero -->
+<div class="hero-section">
+    <h1>Chào mừng đến với Atino</h1>
+    <p>Khám phá các giải pháp công nghệ giúp tối ưu hóa công việc của bạn!</p>
+</div>
+
+<!-- Danh sách sản phẩm -->
+<div class="products-section">
+    <div class="product-card">
+        <img src="https://pos.nvncdn.com/f4d87e-8901/ps/20250106_OAoWXnVZUH.jpeg" alt="Sản phẩm 1">
+        <h3>Sản phẩm 1</h3>
+        <p>Thiết bị công nghệ mới nhất.</p>
     </div>
+    <div class="product-card">
+        <img src="https://pos.nvncdn.com/f4d87e-8901/ps/20250106_ObJSPkhi51.jpeg" alt="Sản phẩm 2">
+        <h3>Sản phẩm 2</h3>
+        <p>Điện thoại thông minh cao cấp.</p>
+    </div>
+    <div class="product-card">
+        <img src="https://pos.nvncdn.com/f4d87e-8901/ps/20241229_4l7AWCw9XD.jpeg" alt="Sản phẩm 3">
+        <h3>Sản phẩm 3</h3>
+        <p>Tai nghe chống ồn siêu cấp.</p>
+    </div>
+    <div class="product-card">
+        <img src="https://pos.nvncdn.com/f4d87e-8901/ps/20241229_5sbw1tbYCz.jpeg" alt="Sản phẩm 4">
+        <h3>Sản phẩm 4</h3>
+        <p>Đồng hồ thông minh.</p>
+    </div>
+    <div class="product-card">
+        <img src="https://pos.nvncdn.com/f4d87e-8901/ps/20241211_iO50QlV4aR.jpeg" alt="Sản phẩm 5">
+        <h3>Sản phẩm 5</h3>
+        <p>Máy ảnh chuyên nghiệp.</p>
+    </div>
+    <div class="product-card">
+        <img src="https://pos.nvncdn.com/f4d87e-8901/ps/20241218_E9UlxlqSkG.jpeg" alt="Sản phẩm 6">
+        <h3>Sản phẩm 6</h3>
+        <p>Máy tính bảng cao cấp.</p>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <p>&copy; 2025 Atino.vn | <a href="#">Điều Khoản</a> | <a href="#">Chính Sách</a></p>
 </div>
 </body>
 </html>
+

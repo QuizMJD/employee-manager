@@ -173,7 +173,16 @@
             <td>
                 <div class="action-buttons">
                     <a href="/employee/crud-employee?id=${employeeModel.employeeId}" class="btn-warning">Update</a>
-                    <a href="/employee/delete/${employeeModel.employeeId}" class="btn-danger">Delete</a>
+                    <form action="/employee/crud-employee" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="${employeeModel.employeeId}">
+                        <input type="hidden" name="deleted" value="true">
+                        <button type="submit" class="btn-danger"
+                                style="background-color: #dc3545; border: none; padding: 6px 12px; border-radius: 4px; text-decoration: none; color: white; cursor: pointer;">
+                            Delete
+                        </button>
+                    </form>
+
+
                 </div>
             </td>
         </tr>

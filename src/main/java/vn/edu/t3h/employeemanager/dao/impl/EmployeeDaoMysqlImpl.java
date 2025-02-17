@@ -21,8 +21,10 @@ public class EmployeeDaoMysqlImpl implements EmployeeDao {
         Connection connection = getConnection();
         List<Employee> employeesResult = new ArrayList<>();
         // tạo câu query
-        String sql = "select * from employees emp " +
-                "inner join departments dept on emp.department_id = dept.department_id;";
+        String sql = "SELECT * FROM employees emp " +
+                "INNER JOIN departments dept ON emp.department_id = dept.department_id " +
+                "ORDER BY emp.employee_id ASC;";
+
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             // thực thi câu query
@@ -202,7 +204,54 @@ public class EmployeeDaoMysqlImpl implements EmployeeDao {
 
     @Override
     public boolean deleteEmployee(Integer id) {
-        return false;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        boolean result = true;
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            connection.setAutoCommit(false);
+
+            // Xóa nhân viên theo employee_id
+            String sql = "DELETE FROM employees WHERE employee_id = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, id); // Sử dụng tham số id đã truyền vào
+
+            // Thực thi câu lệnh và lấy số dòng bị ảnh hưởng
+            int rowsAffected = statement.executeUpdate();
+            connection.commit();
+
+            // Nếu xóa thành công (số dòng bị ảnh hưởng > 0) thì result = true
+            result = rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Rollback nếu có lỗi
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        } finally {
+            // Đóng PreparedStatement
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            // Đóng Connection
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return result;
     }
 
     @Override

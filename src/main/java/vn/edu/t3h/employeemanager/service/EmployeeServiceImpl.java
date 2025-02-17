@@ -36,7 +36,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public boolean deleteEmployee(Integer id) {
-        return false;
+        return employeeDao.deleteEmployee(id);
     }
 
     @Override

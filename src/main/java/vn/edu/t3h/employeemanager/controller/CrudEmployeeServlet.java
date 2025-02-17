@@ -22,6 +22,7 @@ public class CrudEmployeeServlet extends HttpServlet {
         EmployeeDao employeeDao = new EmployeeDaoMysqlImpl();
         EmployeeService employeeService = new EmployeeServiceImpl(employeeDao);
     String action = req.getParameter("action");
+    String deleted = req.getParameter("deleted");
     if(action!=null&&action.equals("Create")) {
         // lay thong tin tu request
         Employee emp = new Employee();
@@ -61,7 +62,15 @@ public class CrudEmployeeServlet extends HttpServlet {
             System.out.println("Employee updated successfully!");
             resp.sendRedirect(req.getContextPath() + "/employee/show");
         }
+    } else if ("true".equals(deleted)) {
+        String id = req.getParameter("id");
+        employeeService.deleteEmployee(Integer.parseInt(id));
+        resp.sendRedirect(req.getContextPath() + "/employee/show");
+    }else {
+        System.out.println("Invalid action save");
     }
+
+
     }
 
     @Override
