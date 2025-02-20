@@ -38,7 +38,6 @@ public class EmployeeDaoMysqlImpl implements EmployeeDao {
                 employee.setSalary(resultSet.getDouble("salary"));
                 employee.setDepartmentName(resultSet.getString("department_name"));
                 employee.setHireDate(resultSet.getString("hire_date"));
-
                 employeesResult.add(employee);
             }
 
@@ -120,7 +119,6 @@ public class EmployeeDaoMysqlImpl implements EmployeeDao {
                     employee.setSalary(resultSet.getDouble("salary"));
                     employee.setDepartmentName(resultSet.getString("department_name"));
                     employee.setHireDate(resultSet.getString("hire_date"));
-
                     employeesResult.add(employee);
                 }
             }
@@ -259,7 +257,7 @@ public class EmployeeDaoMysqlImpl implements EmployeeDao {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        Employee emp = null;
+        Employee employee = null;
         try {
             conn = getConnection();
             String query = "SELECT e.employee_id, e.name, e.position, e.salary, e.hire_date, d.department_name " +
@@ -269,13 +267,13 @@ public class EmployeeDaoMysqlImpl implements EmployeeDao {
             ps.setInt(1, id);
             rs = ps.executeQuery();
             if (rs.next()) {
-                emp = new Employee();
-                emp.setEmployeeId(rs.getInt("employee_id"));
-                emp.setName(rs.getString("name"));
-                emp.setPosition(rs.getString("position"));
-                emp.setSalary(rs.getDouble("salary"));
-                emp.setDepartmentName(rs.getString("department_name"));
-                emp.setHireDate(rs.getString("hire_date"));
+                employee = new Employee();
+                employee.setEmployeeId(rs.getInt("employee_id"));
+                employee.setName(rs.getString("name"));
+                employee.setPosition(rs.getString("position"));
+                employee.setSalary(rs.getDouble("salary"));
+                employee.setDepartmentName(rs.getString("department_name"));
+                employee.setHireDate(rs.getString("hire_date"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -288,7 +286,7 @@ public class EmployeeDaoMysqlImpl implements EmployeeDao {
                 }
             }
         }
-        return emp;
+        return employee;
     }
 
 

@@ -1,4 +1,4 @@
-package vn.edu.t3h.employeemanager.utils.map;
+package vn.edu.t3h.employeemanager.utils;
 
 import java.util.Map;
 

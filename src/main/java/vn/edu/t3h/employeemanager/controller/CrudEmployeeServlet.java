@@ -10,7 +10,7 @@ import vn.edu.t3h.employeemanager.dao.EmployeeDao;
 import vn.edu.t3h.employeemanager.dao.impl.EmployeeDaoMysqlImpl;
 import vn.edu.t3h.employeemanager.model.Employee;
 import vn.edu.t3h.employeemanager.service.EmployeeService;
-import vn.edu.t3h.employeemanager.service.EmployeeServiceImpl;
+import vn.edu.t3h.employeemanager.service.imp.EmployeeServiceImpl;
 
 import java.io.IOException;
 

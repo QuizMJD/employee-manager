@@ -1,7 +1,8 @@
-package vn.edu.t3h.employeemanager.service;
+package vn.edu.t3h.employeemanager.service.imp;
 
 import vn.edu.t3h.employeemanager.dao.DepartmentDao;
 import vn.edu.t3h.employeemanager.model.Department;
+import vn.edu.t3h.employeemanager.service.DepartmentService;
 
 import java.util.List;
 

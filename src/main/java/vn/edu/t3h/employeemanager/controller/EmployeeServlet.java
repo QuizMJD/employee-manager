@@ -6,20 +6,18 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import vn.edu.t3h.employeemanager.HelloServlet;
 import vn.edu.t3h.employeemanager.dao.EmployeeDao;
 import vn.edu.t3h.employeemanager.dao.impl.EmployeeDaoMysqlImpl;
 import vn.edu.t3h.employeemanager.model.Employee;
 import vn.edu.t3h.employeemanager.service.EmployeeService;
-import vn.edu.t3h.employeemanager.service.EmployeeServiceImpl;
+import vn.edu.t3h.employeemanager.service.imp.EmployeeServiceImpl;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static vn.edu.t3h.employeemanager.utils.map.RequestUtils.isSearchEmpty;
+import static vn.edu.t3h.employeemanager.utils.RequestUtils.isSearchEmpty;
 
 @WebServlet(name = "EmployeeServlet",value = "/employee/show")
 public class EmployeeServlet extends HttpServlet {

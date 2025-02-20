@@ -13,7 +13,7 @@ import vn.edu.t3h.employeemanager.dao.impl.DepartmentDaoIml;
 import vn.edu.t3h.employeemanager.model.Department;
 
 import vn.edu.t3h.employeemanager.service.DepartmentService;
-import vn.edu.t3h.employeemanager.service.DepartmentServiceIml;
+import vn.edu.t3h.employeemanager.service.imp.DepartmentServiceIml;
 
 
 import java.io.IOException;
