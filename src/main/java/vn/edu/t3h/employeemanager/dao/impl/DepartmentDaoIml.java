@@ -6,7 +6,7 @@ import vn.edu.t3h.employeemanager.model.Department;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import static vn.edu.t3h.employeemanager.utils.DatabaseConnection.getConnection;
+import static vn.edu.t3h.employeemanager.utils.map.DatabaseConnection.getConnection;
 
 public class DepartmentDaoIml implements DepartmentDao {
     @Override

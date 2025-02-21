@@ -2,7 +2,7 @@ package vn.edu.t3h.employeemanager.dao.impl;
 
 import vn.edu.t3h.employeemanager.dao.UserDao;
 import vn.edu.t3h.employeemanager.model.UserModel;
-import vn.edu.t3h.employeemanager.utils.DatabaseConnection;
+import vn.edu.t3h.employeemanager.utils.map.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

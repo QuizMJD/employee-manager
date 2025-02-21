@@ -2,14 +2,14 @@ package vn.edu.t3h.employeemanager.dao.impl;
 
 import vn.edu.t3h.employeemanager.dao.EmployeeDao;
 import vn.edu.t3h.employeemanager.model.Employee;
-import vn.edu.t3h.employeemanager.utils.DatabaseConnection;
+import vn.edu.t3h.employeemanager.utils.map.DatabaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static vn.edu.t3h.employeemanager.utils.DatabaseConnection.getConnection;
+import static vn.edu.t3h.employeemanager.utils.map.DatabaseConnection.getConnection;
 
 
 public class EmployeeDaoMysqlImpl implements EmployeeDao {

@@ -31,7 +31,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
         RoleModel roleModel = roleService.getRoleById(userModel.getRoleId());
         String urlRedirect = "";
         if (Constants.ROLE.ROLE_ADMIN.name().equalsIgnoreCase(roleModel.getCode())) {
-            urlRedirect = "/employees";
+            urlRedirect = "/employee/show";
         } else if (Constants.ROLE.ROLE_USER.name().equalsIgnoreCase(roleModel.getCode())) {
             urlRedirect = "/";
         }
